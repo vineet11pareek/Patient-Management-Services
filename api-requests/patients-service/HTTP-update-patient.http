@@ -1,0 +1,10 @@
+### Update-Patient
+PUT http://localhost:4000/patients/123e4567-e89b-12d3-a456-426614174000
+Content-Type: application/json
+
+{
+  "name" : "Vineet pareek new",
+  "email": "vineet@gmail.com",
+  "address" : "12 borderland germany",
+  "dateOfBirth" : "1990-09-08"
+}
