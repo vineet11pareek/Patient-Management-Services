@@ -1,4 +1,4 @@
-# 🧩 Microservices Sample Project
+# 🧩 Patient Management System
 
 ## 📌 Overview
 This project demonstrates a **microservices-based architecture** built using modern backend technologies.
@@ -18,6 +18,8 @@ Client → API Gateway → Multiple Microservices → Databases
 - REST APIs
 - H2 / PostgreSQL
 - Docker
+- Openapi v2.7.0
+- gRPC
 
 ---
 
@@ -68,6 +70,19 @@ docker run -p 4000:4000 patient-service
 
 ## 📄 License
 MIT License
+
+## 📄 Issues
+${os.detected.classifier} cannot be resolved
+* Add the below dependency 
+```bash
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-tcnative-boringssl-static</artifactId>
+            <version>2.0.69.Final</version>
+            <classifier>${os.detected.classifier}</classifier>
+        </dependency>
+```
+* Under the billing-service, sometimes Grpc services extends the compile classes from target folder of maven but it didnt recognise,so add mannually using the intellij option, select grpc-java, java folder and right click and then mark directory as "Generated source root"
 
 ---
 
