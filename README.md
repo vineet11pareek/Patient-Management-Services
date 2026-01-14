@@ -20,11 +20,17 @@ Client → API Gateway → Multiple Microservices → Databases
 - Docker
 - Openapi v2.7.0
 - gRPC
+- Kafka
 
 ---
 
 ## 📦 Services
+
 - API Gateway
+- patient-service
+- billing-service
+- analytic-service
+- 
 
 
 ---
