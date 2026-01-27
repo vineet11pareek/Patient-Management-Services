@@ -1,10 +1,10 @@
 ### Creates-Patient
-POST http://localhost:4000/patients
+POST http://lb-1a45b592.elb.localhost.localstack.cloud:8080/api/patients
 Content-Type: application/json
 
 {
   "name" : "vineet pareek",
-  "email": "vineet59pareek@example.com",
+  "email": "vineet02pareek@example.com",
   "address" : "12 borderland germany",
   "dateOfBirth" : "1990-09-08",
   "registeredDate" : "2026-01-07"

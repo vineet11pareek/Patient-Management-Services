@@ -1,2 +1,3 @@
 ### Get-patients
-GET http://localhost:8080/api/patients
+GET http://lb-1a45b592.elb.localhost.localstack.cloud:8080/api/patients
+Authorization: Bearer {{token}}

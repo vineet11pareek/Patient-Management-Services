@@ -1,4 +1,4 @@
 ### GET request to validate JWT
 
-GET http://localhost:4004/validate
+GET http://lb-09829817.elb.localhost.localstack.cloud:8080/auth/validate
 Authorization: Bearer {{token}}
