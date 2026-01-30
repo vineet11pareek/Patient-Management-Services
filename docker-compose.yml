@@ -1,0 +1,117 @@
+version: "3.9"
+
+services:
+  patient-service-db:
+    image: postgres:latest
+    container_name: patient-service-db
+    environment:
+      POSTGRES_DB: patientdb
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5000:5432"
+    volumes:
+      - patient-db:/var/lib/postgresql
+
+  auth-service-db:
+    image: postgres:latest
+    container_name: auth-service-db
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5001:5432"
+    volumes:
+      - auth-db:/var/lib/postgresql
+
+  kafka:
+    image: apache/kafka:3.9.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    environment:
+    - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+    - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+    - KAFKA_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+    - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+    - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+    - KAFKA_NODE_ID=0
+    - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    - KAFKA_PROCESS_ROLES=controller,broker
+
+  zipkin:
+    image: openzipkin/zipkin:2
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+  patient-service:
+    build: ./patientservice
+    container_name: patient-service
+    ports:
+      - "4000:4000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://patient-service-db:5432/patientdb
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      BILLING_SERVICE_ADDRESS: billing-service
+      BILLING_SERVICE_GRPC_PORT: 9001
+      SPRING_JPA_HIBEERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+    depends_on:
+      - patient-service-db
+      - kafka
+
+  billing-service:
+    build: ./billingservice
+    container_name: billing-service
+    ports:
+      - "9001:9001"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+
+  analytics-service:
+    build: ./analyticservice
+    container_name: analytics-service
+    ports:
+    - "4002:4002"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+
+  auth-service:
+      build: ./auth-service
+      container_name: auth-service
+      ports:
+        - "4001:4001"
+      environment:
+        JWT_SECRET: 52bc624861efb80a96dd08760e2bfdfb72b72617d8d34f3b8bcd1750338ac43e
+        SPRING_DATASOURCE_PASSWORD: password
+        SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/authdb
+        SPRING_DATASOURCE_USERNAME: admin_user
+        SPRING_JPA_HIBERNATE_DDL_AUTO: update
+        SPRING_SQL_INIT_MODE: never
+        SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      depends_on:
+        - auth-service-db
+
+  api-gateway:
+      build: ./api-gateway
+      container_name: api-gateway
+      ports:
+        - "8080:8080"
+      environment:
+        AUTH_SERVICE_URL: http://auth-service:4004
+      depends_on:
+        - auth-service
+        - patient-service
+
+volumes:
+  patient-db:
+  auth-db:
