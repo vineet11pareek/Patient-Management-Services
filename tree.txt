@@ -1,0 +1,309 @@
+Folder PATH listing for volume Workspace
+Volume serial number is AE09-79BA
+D:.
+¦   .gitignore
+¦   patient-management.iml
+¦   README.md
+¦   tree.txt
+¦   
++---analyticservice
+¦   ¦   Dockerfile
+¦   ¦   pom.xml
+¦   ¦             
+¦   +---src
+¦   ¦   +---main
+¦   ¦   ¦   +---java
+¦   ¦   ¦   ¦   +---com
+¦   ¦   ¦   ¦       +---pm
+¦   ¦   ¦   ¦           +---analyticservice
+¦   ¦   ¦   ¦               ¦   AnalyticserviceApplication.java
+¦   ¦   ¦   ¦               ¦   
+¦   ¦   ¦   ¦               +---kafka
+¦   ¦   ¦   ¦                       KafkaConsumer.java
+¦   ¦   ¦   ¦                       
+¦   ¦   ¦   +---proto
+¦   ¦   ¦   ¦       patient_event.proto
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---resources
+¦   ¦   ¦       ¦   application.properties
+¦   ¦   ¦       ¦   
+¦   ¦   ¦       +---static
+¦   ¦   ¦       +---templates           
+¦   +---src
+¦   ¦   +---main
+¦   ¦       +---java
+¦   ¦       ¦   +---com
+¦   ¦       ¦       +---pm
+¦   ¦       ¦           +---apigateway
+¦   ¦       ¦               ¦   ApiGatewayApplication.java
+¦   ¦       ¦               ¦   
+¦   ¦       ¦               +---exception
+¦   ¦       ¦               ¦       JwtValidationException.java
+¦   ¦       ¦               ¦       
+¦   ¦       ¦               +---filter
+¦   ¦       ¦                       JwtValidationGatewayFilterFactory.java
+¦   ¦       ¦                       
+¦   ¦       +---resources
+¦   ¦           ¦   application-prod.yml
+¦   ¦           ¦   application.yml
+¦   ¦           ¦   
+¦   ¦           +---static
+¦   ¦           +---templates
++---api-gateway
+¦   ¦   Dockerfile
+¦   ¦   pom.xml          
+¦   +---src
+¦   ¦   +---main
+¦   ¦       +---java
+¦   ¦       ¦   +---com
+¦   ¦       ¦       +---pm
+¦   ¦       ¦           +---apigateway
+¦   ¦       ¦               ¦   ApiGatewayApplication.java
+¦   ¦       ¦               ¦   
+¦   ¦       ¦               +---exception
+¦   ¦       ¦               ¦       JwtValidationException.java
+¦   ¦       ¦               ¦       
+¦   ¦       ¦               +---filter
+¦   ¦       ¦                       JwtValidationGatewayFilterFactory.java
+¦   ¦       ¦                       
+¦   ¦       +---resources
+¦   ¦           ¦   application-prod.yml
+¦   ¦           ¦   application.yml
+¦   ¦           ¦   
+¦   ¦           +---static
+¦   ¦           +---templates
++---api-requests
+¦   +---auth-service
+¦   ¦       auth-service.http
+¦   ¦       validate.http
+¦   ¦       
+¦   +---patients-service
+¦           HTTP-create-patient.http
+¦           HTTP-delete-patient.http
+¦           HTTP-get-patients.http
+¦           HTTP-update-patient.http
+¦           
++---auth-service
+¦   ¦   Dockerfile
+¦   ¦   pom.xml           
+¦   +---src
+¦   ¦   +---main
+¦   ¦       +---java
+¦   ¦       ¦   +---com
+¦   ¦       ¦       +---pm
+¦   ¦       ¦           +---authservice
+¦   ¦       ¦               ¦   AuthServiceApplication.java
+¦   ¦       ¦               ¦   
+¦   ¦       ¦               +---config
+¦   ¦       ¦               ¦       SecurityConfig.java
+¦   ¦       ¦               ¦       
+¦   ¦       ¦               +---controller
+¦   ¦       ¦               ¦       AuthController.java
+¦   ¦       ¦               ¦       
+¦   ¦       ¦               +---dto
+¦   ¦       ¦               ¦       LoginRequestDTO.java
+¦   ¦       ¦               ¦       LoginResponseDTO.java
+¦   ¦       ¦               ¦       
+¦   ¦       ¦               +---model
+¦   ¦       ¦               ¦       User.java
+¦   ¦       ¦               ¦       
+¦   ¦       ¦               +---repository
+¦   ¦       ¦               ¦       UserRepository.java
+¦   ¦       ¦               ¦       
+¦   ¦       ¦               +---service
+¦   ¦       ¦               ¦       AuthService.java
+¦   ¦       ¦               ¦       UserService.java
+¦   ¦       ¦               ¦       
+¦   ¦       ¦               +---util
+¦   ¦       ¦                       JwtUtil.java
+¦   ¦       ¦                       
+¦   ¦       +---resources
+¦   ¦               application.properties
+¦   ¦               data.sql
++---billingservice
+¦   ¦   Dockerfile
+¦   ¦   pom.xml           
+¦   +---src
+¦   ¦   +---main
+¦   ¦   ¦   +---java
+¦   ¦   ¦   ¦   +---com
+¦   ¦   ¦   ¦       +---pm
+¦   ¦   ¦   ¦           +---billingservice
+¦   ¦   ¦   ¦               ¦   BillingserviceApplication.java
+¦   ¦   ¦   ¦               ¦   
+¦   ¦   ¦   ¦               +---grpc
+¦   ¦   ¦   ¦                       BillingGrpcService.java
+¦   ¦   ¦   ¦                       
+¦   ¦   ¦   +---proto
+¦   ¦   ¦   ¦       billing_service.proto
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---resources
+¦   ¦   ¦       ¦   application.properties
+¦   ¦   ¦       ¦   
+¦   ¦   ¦       +---static
+¦   ¦   ¦       +---templates
+¦   ¦   +---test
+¦   ¦       +---java
+¦   ¦           +---com
+¦   ¦               +---pm
+¦   ¦                   +---billingservice
+¦   ¦                           BillingserviceApplicationTests.java
+¦               
++---db_volumes
+¦   +---auth-service
+¦   ¦   +---18
+¦   ¦       +---docker
+¦   ¦           ¦   pg_hba.conf
+¦   ¦           ¦   pg_ident.conf
+¦   ¦           ¦   PG_VERSION
+¦   ¦           ¦   postgresql.auto.conf
+¦   ¦           ¦   postgresql.conf
+¦   ¦           ¦   postmaster.opts
+¦   ¦           ¦   
+¦   ¦           +---base
+¦   +---patient-service
+¦       +---18
+¦           +---docker
+¦               ¦   pg_hba.conf
+¦               ¦   pg_ident.conf
+¦               ¦   PG_VERSION
+¦               ¦   postgresql.auto.conf
+¦               ¦   postgresql.conf
+¦               ¦   postmaster.opts
+¦               ¦   
+¦               +---base
++---grpc-request
+¦   +---billing-service
+¦           HTTP-create-billing-account.http
+¦           
++---infrastructure
+¦   ¦   localstack-deploy.sh
+¦   ¦   pom.xml
+¦   ¦   
+¦   +---.mvn
+¦   +---cdk.out
+¦   ¦       cdk.out
+¦   ¦       localstack.template.json
+¦   ¦       manifest.json
+¦   ¦       tree.json
+¦   ¦       
+¦   +---src
+¦   ¦   +---main
+¦   ¦   ¦   +---java
+¦   ¦   ¦   ¦   +---com
+¦   ¦   ¦   ¦       +---pm
+¦   ¦   ¦   ¦           +---stack
+¦   ¦   ¦   ¦                   LocalStack.java
+¦   ¦   ¦   ¦                   
+¦   ¦   ¦   +---resources
+¦   ¦   +---test
+¦   ¦       +---java
+¦   +---target
+¦       +---classes
+¦       ¦   +---com
+¦       ¦       +---pm
+¦       ¦           +---stack
+¦       ¦                   LocalStack.class
+¦       ¦                   
+¦       +---generated-sources
+¦           +---annotations
++---integration-test
+¦   ¦   pom.xml
+¦   ¦   
+¦   +---.mvn
+¦   +---src
+¦   ¦   +---main
+¦   ¦   ¦   +---java
+¦   ¦   ¦   ¦   +---com
+¦   ¦   ¦   ¦       +---pm
+¦   ¦   ¦   ¦               Main.java
+¦   ¦   ¦   ¦               
+¦   ¦   ¦   +---resources
+¦   ¦   +---test
+¦   ¦       +---java
+¦   ¦           +---com
+¦   ¦               +---pm
+¦   ¦                   +---tests
+¦   ¦                           AuthIntegrationTest.java
+¦   ¦                           PatientIntegrationTest.java
+¦   ¦                           
+¦   +---target
+¦       +---classes
+¦       ¦   +---com
+¦       ¦       +---pm
+¦       ¦               Main.class
+¦       ¦               
+¦       +---generated-sources
+¦       ¦   +---annotations
+¦       +---generated-test-sources
+¦       ¦   +---test-annotations
+¦       +---test-classes
+¦           +---com
+¦               +---pm
+¦                   +---tests
+¦                           AuthIntegrationTest.class
+¦                           PatientIntegrationTest.class
+¦                           
++---patientservice
+    ¦   Dockerfile
+    ¦   pom.xml           
+    +---src
+    ¦   +---main
+    ¦   ¦   +---java
+    ¦   ¦   ¦   +---com
+    ¦   ¦   ¦       +---pm
+    ¦   ¦   ¦           +---patientservice
+    ¦   ¦   ¦               ¦   PatientserviceApplication.java
+    ¦   ¦   ¦               ¦   
+    ¦   ¦   ¦               +---configuration
+    ¦   ¦   ¦               +---controller
+    ¦   ¦   ¦               ¦       PatientController.java
+    ¦   ¦   ¦               ¦       
+    ¦   ¦   ¦               +---dto
+    ¦   ¦   ¦               ¦   ¦   PatientRequestDTO.java
+    ¦   ¦   ¦               ¦   ¦   PatientResponseDTO.java
+    ¦   ¦   ¦               ¦   ¦   
+    ¦   ¦   ¦               ¦   +---validation
+    ¦   ¦   ¦               ¦           PatientValidationGroup.java
+    ¦   ¦   ¦               ¦           
+    ¦   ¦   ¦               +---exception
+    ¦   ¦   ¦               ¦       EmailAlreadyExistException.java
+    ¦   ¦   ¦               ¦       GlobalExceptionHandler.java
+    ¦   ¦   ¦               ¦       PatientNotFoundException.java
+    ¦   ¦   ¦               ¦       
+    ¦   ¦   ¦               +---grpc
+    ¦   ¦   ¦               ¦       BillingServiceGrpcClient.java
+    ¦   ¦   ¦               ¦       
+    ¦   ¦   ¦               +---kafka
+    ¦   ¦   ¦               ¦       KafkaProducer.java
+    ¦   ¦   ¦               ¦       
+    ¦   ¦   ¦               +---mapper
+    ¦   ¦   ¦               ¦       PatientMapper.java
+    ¦   ¦   ¦               ¦       
+    ¦   ¦   ¦               +---model
+    ¦   ¦   ¦               ¦       Patient.java
+    ¦   ¦   ¦               ¦       
+    ¦   ¦   ¦               +---repository
+    ¦   ¦   ¦               ¦       PatientRepository.java
+    ¦   ¦   ¦               ¦       
+    ¦   ¦   ¦               +---service
+    ¦   ¦   ¦                       PatientService.java
+    ¦   ¦   ¦                       
+    ¦   ¦   +---proto
+    ¦   ¦   ¦       billing_service.proto
+    ¦   ¦   ¦       patient_event.proto
+    ¦   ¦   ¦       
+    ¦   ¦   +---resources
+    ¦   ¦       ¦   application.properties
+    ¦   ¦       ¦   data.sql
+    ¦   ¦       ¦   
+    ¦   ¦       +---static
+    ¦   ¦       +---templates
+    ¦   +---test
+    ¦       +---java
+    ¦           +---com
+    ¦               +---pm
+    ¦                   +---patientservice
+    ¦                           PatientserviceApplicationTests.java
+    ¦                           
+                

@@ -46,9 +46,18 @@ services:
     container_name: zipkin
     ports:
       - "9411:9411"
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib
+    container_name: otel-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
 
   patient-service:
-    build: ./patientservice
+    build: ./patient-service
     container_name: patient-service
     ports:
       - "4000:4000"
@@ -66,17 +75,18 @@ services:
       - kafka
 
   billing-service:
-    build: ./billingservice
+    build: ./billing-service
     container_name: billing-service
     ports:
       - "9001:9001"
+      - "4001:4001"
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       - kafka
 
   analytics-service:
-    build: ./analyticservice
+    build: ./analytic-service
     container_name: analytics-service
     ports:
     - "4002:4002"
@@ -89,7 +99,7 @@ services:
       build: ./auth-service
       container_name: auth-service
       ports:
-        - "4001:4001"
+        - "4004:4004"
       environment:
         JWT_SECRET: 52bc624861efb80a96dd08760e2bfdfb72b72617d8d34f3b8bcd1750338ac43e
         SPRING_DATASOURCE_PASSWORD: password
@@ -111,6 +121,7 @@ services:
       depends_on:
         - auth-service
         - patient-service
+        - otel-collector
 
 volumes:
   patient-db:

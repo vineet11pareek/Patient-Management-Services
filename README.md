@@ -21,6 +21,8 @@ Client → API Gateway → Multiple Microservices → Databases
 - Openapi v2.7.0
 - gRPC
 - Kafka
+- Open telemetry
+- Zipkin
 
 ---
 
@@ -30,7 +32,7 @@ Client → API Gateway → Multiple Microservices → Databases
 - patient-service
 - billing-service
 - analytic-service
-- 
+- auth-service
 
 
 ---
