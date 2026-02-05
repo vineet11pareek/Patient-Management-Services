@@ -5,10 +5,14 @@ import billing.BillingResponse;
 import billing.BillingServiceGrpc;
 import billing.BillingServiceGrpc.BillingServiceBlockingStub;
 import billing.BillingServiceGrpc.BillingServiceImplBase;
+import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.instrumentation.grpc.v1_6.GrpcTelemetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +21,14 @@ public class BillingServiceGrpcClient extends BillingServiceImplBase {
     private static final Logger log = LoggerFactory.getLogger(BillingServiceGrpcClient.class);
     private final BillingServiceBlockingStub blockingStub;
 
-    public BillingServiceGrpcClient(
+    public BillingServiceGrpcClient(@Qualifier("otelClientInterceptor")ClientInterceptor interceptor,
             @Value("${billing.service.address:localhost}") String hostAddress,
             @Value("${billing.service.grpc.port:9001}") int grpcPort) {
         log.info("Connecting to Billing GRPC service at {}:{}",hostAddress,grpcPort);
+
         ManagedChannel channel = ManagedChannelBuilder.forAddress(hostAddress, grpcPort)
                 .usePlaintext()
+                .intercept(interceptor)
                 .build();
         blockingStub = BillingServiceGrpc.newBlockingStub(channel);
 

@@ -94,5 +94,11 @@ ${os.detected.classifier} cannot be resolved
 
 ---
 
+## 📚 Documentation
+
+| Guide | Description |
+|------|-------------|
+| [OpenTelemetry Tracing Guide](docs/OpenTelemetry_Tracing_Guide.md) | Setup for HTTP, Kafka, and gRPC tracing |
+
 ## ✨ Author
 Vineet Pareek

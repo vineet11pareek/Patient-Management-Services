@@ -94,6 +94,12 @@
             <version>2.21.0-alpha</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-grpc-1.6</artifactId>
+            <version>2.21.0-alpha</version>
+        </dependency>
+
     </dependencies>
 
 
