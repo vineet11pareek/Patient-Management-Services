@@ -16,6 +16,9 @@ public class Patient {
     @NotNull
     private String name;
 
+    @Column(nullable = false)
+    private String billingStatus = "PENDING";
+
     @NotNull
     @Email
     @Column(unique = true)
@@ -76,5 +79,13 @@ public class Patient {
 
     public void setRegisteredDate(LocalDate registeredDate) {
         this.registeredDate = registeredDate;
+    }
+
+    public String getBillingStatus() {
+        return billingStatus;
+    }
+
+    public void setBillingStatus(String billingStatus) {
+        this.billingStatus = billingStatus;
     }
 }

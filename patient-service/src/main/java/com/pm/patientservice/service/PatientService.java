@@ -32,9 +32,7 @@ public class PatientService {
 
     public List<PatientResponseDTO> getPatients() {
         List<Patient> patients = patientRepository.findAll();
-        List<PatientResponseDTO> patientResponseDTOS = patients.stream().map(PatientMapper::toDTO).toList();
-
-        return patientResponseDTOS;
+        return patients.stream().map(PatientMapper::toDTO).toList();
     }
 
     public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
@@ -43,6 +41,12 @@ public class PatientService {
         }
         Patient newPatient = patientRepository.save(PatientMapper.toModel(patientRequestDTO));
         BillingResponse billingAccount = billingServiceGrpcClient.createBillingAccount(newPatient.getId().toString(), newPatient.getName(), newPatient.getEmail());
+        if("PENDING".equals(billingAccount.getStatus())){
+            newPatient.setBillingStatus("PENDING_BILLING");
+        }else{
+            newPatient.setBillingStatus("ACTIVE");
+        }
+
         kafkaProducer.sendEvent(newPatient);
 
         return PatientMapper.toDTO(patientRepository.save(newPatient));

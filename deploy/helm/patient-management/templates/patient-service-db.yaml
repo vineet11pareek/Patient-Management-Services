@@ -1,0 +1,43 @@
+{{- if .Values.deps.postgresPatient.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patient-service-db
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patient-service-db
+  template:
+    metadata:
+      labels:
+        app: patient-service-db
+    spec:
+      containers:
+        - name: postgres
+          image: {{ .Values.deps.postgresPatient.image }}
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.deps.postgresPatient.db }}
+            - name: POSTGRES_USER
+              value: {{ .Values.deps.postgresPatient.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.deps.postgresPatient.password }}
+          ports:
+            - containerPort: {{ .Values.deps.postgresPatient.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: patient-service-db
+  namespace: {{ .Values.namespace }}
+spec:
+  type: NodePort
+  selector:
+    app: patient-service-db
+  ports:
+    - name: patient-service-db-port
+      port: {{ .Values.deps.postgresPatient.port }}
+      targetPort: {{ .Values.deps.postgresPatient.port }}
+  {{ end }}

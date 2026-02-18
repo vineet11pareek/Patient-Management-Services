@@ -1,0 +1,44 @@
+{{- if .Values.deps.otelCollector.enabled}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  namespace: {{.Values.namespace}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+        - name: otel-collector
+          image: {{.Values.deps.otelCollector.image}}
+          args:
+            - "--config=/etc/otel-collector-config.yaml"
+          ports:
+            - containerPort: {{.Values.deps.otelCollector.port}}
+          volumeMounts:
+            - mountPath: /etc/otel-collector-config.yaml
+              subPath: otel-collector-config.yaml
+              name: config
+      volumes:
+        - name: config
+          configMap:
+            name: otel-collector-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+  namespace: {{.Values.namespace}}
+spec:
+  selector:
+    app: otel-collector
+  ports:
+    - port: {{.Values.deps.otelCollector.port}}
+      targetPort: {{.Values.deps.otelCollector.port}}
+  {{- end}}

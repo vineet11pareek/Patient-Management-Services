@@ -1,0 +1,29 @@
+{{- if .Values.deps.otelCollector.enabled}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-config
+  namespace: {{.Values.namespace}}
+data:
+  otel-collector-config.yaml:  |
+    receivers:
+      otlp:
+        protocols:
+          http:
+            endpoint: 0.0.0.0:4318
+          grpc:
+            endpoint: 0.0.0.0:4317
+
+
+    exporters:
+      zipkin:
+        endpoint: "http://zipkin:9411/api/v2/spans"
+      debug:
+        verbosity: detailed
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          exporters: [debug, zipkin]
+  {{- end}}

@@ -1,0 +1,39 @@
+{{- if .Values.services.patient }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.services.patient.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.services.patient.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.services.patient.name }}
+    spec:
+      containers:
+        - name: {{ .Values.services.patient.name }}
+          image: {{ .Values.services.patient.image }}
+          ports:
+            - containerPort: {{ .Values.services.patient.port }}
+          env:
+            {{- range $key, $value := .Values.services.patient.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.services.patient.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.services.patient.name }}
+  ports:
+    - port: {{ .Values.services.patient.port }}
+      targetPort: {{ .Values.services.patient.port }}
+{{- end }}

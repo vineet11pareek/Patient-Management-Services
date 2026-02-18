@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +38,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PatientNotFoundException.class)
     public ResponseEntity<Map<String,String>> handlePatientNotFoundException(PatientNotFoundException ex){
         log.warn("Patient not found",ex.getMessage());
+        Map<String,String> errors = new HashMap<>();
+        errors.put("message",ex.getMessage());
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(UnknownHostException.class)
+    public ResponseEntity<Map<String,String>> handleUnknownHostException(UnknownHostException ex){
+        log.warn("Unknown Host exception ",ex.getMessage());
         Map<String,String> errors = new HashMap<>();
         errors.put("message",ex.getMessage());
         return ResponseEntity.badRequest().body(errors);

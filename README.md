@@ -23,6 +23,9 @@ Client → API Gateway → Multiple Microservices → Databases
 - Kafka
 - Open telemetry
 - Zipkin
+- resilience4j
+- Kubernetes
+- Helm chart for deployment
 
 ---
 
@@ -96,9 +99,10 @@ ${os.detected.classifier} cannot be resolved
 
 ## 📚 Documentation
 
-| Guide | Description |
-|------|-------------|
-| [OpenTelemetry Tracing Guide](docs/OpenTelemetry_Tracing_Guide.md) | Setup for HTTP, Kafka, and gRPC tracing |
+| Guide                                                                        | Description |
+|------------------------------------------------------------------------------|-------------|
+| [OpenTelemetry Tracing Guide](docs/OpenTelemetry_Tracing_Guide.md)           | Setup for HTTP, Kafka, and gRPC tracing |
+| [Kubernetes Deployment with Helm chart](docs/patient-management-kubernetes-deployment.md) | Detailed Kubernetes Deployment Guide |
 
 ## ✨ Author
 Vineet Pareek

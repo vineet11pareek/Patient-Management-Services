@@ -1,0 +1,39 @@
+{{- if .Values.services.auth }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.services.auth.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.services.auth.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.services.auth.name }}
+    spec:
+      containers:
+        - name: {{ .Values.services.auth.name }}
+          image: {{ .Values.services.auth.image }}
+          ports:
+            - containerPort: {{ .Values.services.auth.port }}
+          env:
+            {{- range $key, $value := .Values.services.auth.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.services.auth.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.services.auth.name }}
+  ports:
+    - port: {{ .Values.services.auth.port }}
+      targetPort: {{ .Values.services.auth.port }}
+{{- end }}

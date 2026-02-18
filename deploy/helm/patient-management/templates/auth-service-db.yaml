@@ -1,0 +1,43 @@
+{{- if .Values.deps.postgresAuth.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service-db
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service-db
+  template:
+    metadata:
+      labels:
+        app: auth-service-db
+    spec:
+      containers:
+        - name: postgres
+          image: {{ .Values.deps.postgresAuth.image }}
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.deps.postgresAuth.db }}
+            - name: POSTGRES_USER
+              value: {{ .Values.deps.postgresAuth.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.deps.postgresAuth.password }}
+          ports:
+            - containerPort: {{ .Values.deps.postgresAuth.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service-db
+  namespace: {{ .Values.namespace }}
+spec:
+  type: NodePort
+  selector:
+    app: auth-service-db
+  ports:
+    - name: patient-service-db-port
+      port: {{ .Values.deps.postgresAuth.port }}
+      targetPort: {{ .Values.deps.postgresAuth.port }}
+  {{ end }}

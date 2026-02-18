@@ -5,6 +5,9 @@ import billing.BillingResponse;
 import billing.BillingServiceGrpc;
 import billing.BillingServiceGrpc.BillingServiceBlockingStub;
 import billing.BillingServiceGrpc.BillingServiceImplBase;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -15,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class BillingServiceGrpcClient extends BillingServiceImplBase {
@@ -34,6 +39,9 @@ public class BillingServiceGrpcClient extends BillingServiceImplBase {
 
     }
 
+    @CircuitBreaker(name = "billingGrpc", fallbackMethod = "billingFallback")
+    @Retry(name = "billingGrpc")
+    @Bulkhead(name = "billingGrpc", type = Bulkhead.Type.SEMAPHORE)
     public BillingResponse createBillingAccount(String patientId,String name,String email){
         BillingRequest request = BillingRequest
                 .newBuilder()
@@ -42,8 +50,25 @@ public class BillingServiceGrpcClient extends BillingServiceImplBase {
                 .setEmail(email)
                 .build();
 
-        BillingResponse response = blockingStub.createBillingAccount(request);
+        BillingResponse response = blockingStub
+                .withDeadlineAfter(800, TimeUnit.MILLISECONDS)
+                .createBillingAccount(request);
         log.info("Received response from billing service via GRPC: {}",response);
         return response;
+    }
+
+
+    public BillingResponse billingFallback(
+            String patientId,
+            String name,
+            String email,
+            Throwable throwable) {
+
+        log.error("Billing fallback triggered for patient {}", patientId, throwable);
+
+        return BillingResponse.newBuilder()
+                .setAccountId("PENDING")
+                .setStatus("PENDING")
+                .build();
     }
 }

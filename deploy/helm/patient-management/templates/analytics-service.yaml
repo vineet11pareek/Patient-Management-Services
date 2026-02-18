@@ -1,0 +1,25 @@
+{{- if .Values.services.analytics }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.services.analytics.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.services.analytics.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.services.analytics.name }}
+    spec:
+      containers:
+        - name: {{ .Values.services.analytics.name }}
+          image: {{ .Values.services.analytics.image }}
+          env:
+            {{- range $key, $value := .Values.services.analytics.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+{{- end }}

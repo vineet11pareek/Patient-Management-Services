@@ -1,0 +1,39 @@
+{{- if .Values.services.billing }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.services.billing.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.services.billing.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.services.billing.name }}
+    spec:
+      containers:
+        - name: {{ .Values.services.billing.name }}
+          image: {{ .Values.services.billing.image }}
+          ports:
+            - containerPort: {{ .Values.services.billing.port }}
+          env:
+            {{- range $key, $value := .Values.services.billing.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.services.billing.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.services.billing.name }}
+  ports:
+    - port: {{ .Values.services.billing.port }}
+      targetPort: {{ .Values.services.billing.port }}
+  {{- end}}
